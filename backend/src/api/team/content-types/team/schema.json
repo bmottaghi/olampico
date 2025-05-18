@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "teams",
+  "info": {
+    "singularName": "team",
+    "pluralName": "teams",
+    "displayName": "Team",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "players": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::player.player",
+      "inversedBy": "teams"
+    },
+    "leagues": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::individuals-league.individuals-league",
+      "inversedBy": "teams"
+    },
+    "matches": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::individuals-match.individuals-match",
+      "inversedBy": "teams"
+    },
+    "TeamMatchHistory": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::individuals-match.individuals-match",
+      "mappedBy": "teamwinner"
+    },
+    "team_league_championships": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::individuals-league.individuals-league",
+      "mappedBy": "LeagueChampionshipTeam"
+    }
+  }
+}

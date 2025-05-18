@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "individuals_matches",
+  "info": {
+    "singularName": "individuals-match",
+    "pluralName": "individuals-matches",
+    "displayName": "Match",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "players": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::player.player",
+      "inversedBy": "individuals_matches"
+    },
+    "teams": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team.team",
+      "mappedBy": "matches"
+    },
+    "league": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::individuals-league.individuals-league",
+      "inversedBy": "matches"
+    },
+    "player_winner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player.player",
+      "inversedBy": "player_match_histories"
+    },
+    "teamwinner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "TeamMatchHistory"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "individual",
+        "team"
+      ]
+    }
+  }
+}

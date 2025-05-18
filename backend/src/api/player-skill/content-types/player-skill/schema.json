@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "player_skills",
+  "info": {
+    "singularName": "player-skill",
+    "pluralName": "player-skills",
+    "displayName": "PlayerSkill"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "player": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player.player",
+      "inversedBy": "player_skills"
+    },
+    "sport": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sport.sport",
+      "inversedBy": "player_skills"
+    },
+    "level": {
+      "type": "enumeration",
+      "enum": [
+        "beginner",
+        "amature",
+        "professional"
+      ],
+      "required": true
+    }
+  }
+}

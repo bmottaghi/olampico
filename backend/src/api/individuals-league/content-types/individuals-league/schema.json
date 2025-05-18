@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "individuals_leagues",
+  "info": {
+    "singularName": "individuals-league",
+    "pluralName": "individuals-leagues",
+    "displayName": "League",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "sport": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sport.sport",
+      "inversedBy": "individuals_leagues"
+    },
+    "players": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::player.player",
+      "inversedBy": "individuals_leagues"
+    },
+    "player_champion": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player.player",
+      "inversedBy": "individuals_leagues"
+    },
+    "teams": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team.team",
+      "mappedBy": "leagues"
+    },
+    "matches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::individuals-match.individuals-match",
+      "mappedBy": "league"
+    },
+    "LeagueChampionshipTeam": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "team_league_championships"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "individual",
+        "team"
+      ]
+    }
+  }
+}

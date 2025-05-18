@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sports",
+  "info": {
+    "singularName": "sport",
+    "pluralName": "sports",
+    "displayName": "Sport"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "player_skills": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::player-skill.player-skill",
+      "mappedBy": "sport"
+    },
+    "individuals_leagues": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::individuals-league.individuals-league",
+      "mappedBy": "sport"
+    }
+  }
+}
