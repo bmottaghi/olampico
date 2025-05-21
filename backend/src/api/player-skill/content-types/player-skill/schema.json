@@ -4,18 +4,13 @@
   "info": {
     "singularName": "player-skill",
     "pluralName": "player-skills",
-    "displayName": "PlayerSkill"
+    "displayName": "PlayerSkill",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
-    "player": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::player.player",
-      "inversedBy": "player_skills"
-    },
     "sport": {
       "type": "relation",
       "relation": "manyToOne",
@@ -30,6 +25,12 @@
         "professional"
       ],
       "required": true
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "player_skills"
     }
   }
 }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "sport",
     "pluralName": "sports",
-    "displayName": "Sport"
+    "displayName": "Sport",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,13 +16,19 @@
       "required": true,
       "unique": true
     },
+    "teams": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::team.team",
+      "mappedBy": "sport"
+    },
     "player_skills": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::player-skill.player-skill",
       "mappedBy": "sport"
     },
-    "individuals_leagues": {
+    "leagues": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::individuals-league.individuals-league",

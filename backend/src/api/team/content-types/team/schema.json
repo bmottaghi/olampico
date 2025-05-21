@@ -18,32 +18,56 @@
     "players": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::player.player",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "teams"
     },
-    "leagues": {
+    "sport": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::individuals-league.individuals-league",
+      "relation": "manyToOne",
+      "target": "api::sport.sport",
       "inversedBy": "teams"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "female",
+        "male"
+      ]
+    },
+    "level": {
+      "type": "enumeration",
+      "enum": [
+        "beginner",
+        "amature",
+        "profesional"
+      ]
+    },
+    "slogan": {
+      "type": "text"
     },
     "matches": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::individuals-match.individuals-match",
-      "inversedBy": "teams"
+      "mappedBy": "teams"
     },
-    "TeamMatchHistory": {
+    "match_scores": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::individuals-match.individuals-match",
-      "mappedBy": "teamwinner"
+      "target": "api::match-score.match-score",
+      "mappedBy": "team"
     },
-    "team_league_championships": {
+    "league_championship": {
       "type": "relation",
       "relation": "oneToMany",
+      "target": "api::league-champion.league-champion",
+      "mappedBy": "team"
+    },
+    "leagues": {
+      "type": "relation",
+      "relation": "manyToMany",
       "target": "api::individuals-league.individuals-league",
-      "mappedBy": "LeagueChampionshipTeam"
+      "mappedBy": "team_type_members"
     }
   }
 }

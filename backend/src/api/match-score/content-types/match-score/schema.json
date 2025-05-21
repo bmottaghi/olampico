@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "match_scores",
+  "info": {
+    "singularName": "match-score",
+    "pluralName": "match-scores",
+    "displayName": "MatchScore"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "player": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "match_scores"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "match_scores"
+    },
+    "score": {
+      "type": "integer"
+    },
+    "result": {
+      "type": "enumeration",
+      "enum": [
+        "winner",
+        "looser",
+        "equal"
+      ]
+    },
+    "match": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::individuals-match.individuals-match",
+      "inversedBy": "match_scores"
+    }
+  }
+}

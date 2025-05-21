@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "league_champions",
+  "info": {
+    "singularName": "league-champion",
+    "pluralName": "league-champions",
+    "displayName": "LeagueChampion"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "league": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::individuals-league.individuals-league",
+      "inversedBy": "league_champions"
+    },
+    "player": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "league_championship"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "league_championship"
+    },
+    "rank": {
+      "type": "integer"
+    }
+  }
+}
