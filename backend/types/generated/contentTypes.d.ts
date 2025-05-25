@@ -378,7 +378,7 @@ export interface ApiIndividualsLeagueIndividualsLeague
   collectionName: 'individuals_leagues';
   info: {
     description: '';
-    displayName: 'League';
+    displayName: 'Individuals League';
     pluralName: 'individuals-leagues';
     singularName: 'individuals-league';
   };
@@ -389,11 +389,8 @@ export interface ApiIndividualsLeagueIndividualsLeague
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    gender: Schema.Attribute.Enumeration<['female', 'male']>;
-    league_champions: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::league-champion.league-champion'
+    league_status: Schema.Attribute.Enumeration<
+      ['waiting', 'ongoing', 'finished']
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -401,7 +398,14 @@ export interface ApiIndividualsLeagueIndividualsLeague
       'api::individuals-league.individuals-league'
     > &
       Schema.Attribute.Private;
+    matches: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::individuals-match.individuals-match'
+    >;
+    min_participants: Schema.Attribute.Integer & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    participant_type: Schema.Attribute.Enumeration<['team', 'individual']> &
+      Schema.Attribute.Required;
     player_type_members: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
@@ -412,7 +416,6 @@ export interface ApiIndividualsLeagueIndividualsLeague
       'manyToMany',
       'api::team.team'
     >;
-    type: Schema.Attribute.Enumeration<['individual', 'team']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -424,7 +427,7 @@ export interface ApiIndividualsMatchIndividualsMatch
   collectionName: 'individuals_matches';
   info: {
     description: '';
-    displayName: 'Match';
+    displayName: 'Individuals Match';
     pluralName: 'individuals-matches';
     singularName: 'individuals-match';
   };
@@ -435,25 +438,26 @@ export interface ApiIndividualsMatchIndividualsMatch
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    datetime: Schema.Attribute.DateTime;
+    league: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::individuals-league.individuals-league'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::individuals-match.individuals-match'
     > &
       Schema.Attribute.Private;
-    match_scores: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::match-score.match-score'
-    >;
-    match_status: Schema.Attribute.Enumeration<['finished', 'canceled']>;
+    match_status: Schema.Attribute.Enumeration<['finished', 'cancelled']> &
+      Schema.Attribute.Required;
+    participant_type: Schema.Attribute.Enumeration<['team', 'individual']> &
+      Schema.Attribute.Required;
     players: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
     >;
     publishedAt: Schema.Attribute.DateTime;
-    teams: Schema.Attribute.Relation<'manyToMany', 'api::team.team'>;
-    type: Schema.Attribute.Enumeration<['individual', 'team']>;
+    round: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -475,20 +479,12 @@ export interface ApiLeagueChampionLeagueChampion
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    league: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::individuals-league.individuals-league'
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::league-champion.league-champion'
     > &
       Schema.Attribute.Private;
-    player: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     publishedAt: Schema.Attribute.DateTime;
     rank: Schema.Attribute.Integer;
     team: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
@@ -501,6 +497,7 @@ export interface ApiLeagueChampionLeagueChampion
 export interface ApiMatchScoreMatchScore extends Struct.CollectionTypeSchema {
   collectionName: 'match_scores';
   info: {
+    description: '';
     displayName: 'MatchScore';
     pluralName: 'match-scores';
     singularName: 'match-score';
@@ -518,10 +515,6 @@ export interface ApiMatchScoreMatchScore extends Struct.CollectionTypeSchema {
       'api::match-score.match-score'
     > &
       Schema.Attribute.Private;
-    match: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::individuals-match.individuals-match'
-    >;
     player: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
@@ -566,10 +559,6 @@ export interface ApiPlayerSkillPlayerSkill extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -588,6 +577,10 @@ export interface ApiSportSport extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    individuals_leagues: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::individuals-league.individuals-league'
+    >;
     leagues: Schema.Attribute.Relation<
       'oneToMany',
       'api::individuals-league.individuals-league'
@@ -626,13 +619,13 @@ export interface ApiTeamTeam extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     gender: Schema.Attribute.Enumeration<['female', 'male']>;
+    individuals_leagues: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::individuals-league.individuals-league'
+    >;
     league_championship: Schema.Attribute.Relation<
       'oneToMany',
       'api::league-champion.league-champion'
-    >;
-    leagues: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::individuals-league.individuals-league'
     >;
     level: Schema.Attribute.Enumeration<['beginner', 'amature', 'profesional']>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -647,10 +640,6 @@ export interface ApiTeamTeam extends Struct.CollectionTypeSchema {
       'api::individuals-match.individuals-match'
     >;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    players: Schema.Attribute.Relation<
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
     publishedAt: Schema.Attribute.DateTime;
     slogan: Schema.Attribute.Text;
     sport: Schema.Attribute.Relation<'manyToOne', 'api::sport.sport'>;
@@ -1131,13 +1120,13 @@ export interface PluginUsersPermissionsUser
       }>;
     full_name: Schema.Attribute.String;
     gender: Schema.Attribute.Enumeration<['femal', 'male']>;
-    league_championship: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::league-champion.league-champion'
-    >;
-    leagues: Schema.Attribute.Relation<
+    individuals_leagues: Schema.Attribute.Relation<
       'manyToMany',
       'api::individuals-league.individuals-league'
+    >;
+    individuals_matches: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::individuals-match.individuals-match'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1149,19 +1138,11 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::match-score.match-score'
     >;
-    matches: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::individuals-match.individuals-match'
-    >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    player_skills: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::player-skill.player-skill'
-    >;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1169,7 +1150,6 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    teams: Schema.Attribute.Relation<'manyToMany', 'api::team.team'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

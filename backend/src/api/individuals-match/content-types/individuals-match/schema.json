@@ -4,47 +4,45 @@
   "info": {
     "singularName": "individuals-match",
     "pluralName": "individuals-matches",
-    "displayName": "Match",
+    "displayName": "Individuals Match",
     "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
-    "type": {
+    "match_status": {
       "type": "enumeration",
       "enum": [
-        "individual",
-        "team"
-      ]
+        "finished",
+        "cancelled"
+      ],
+      "required": true
+    },
+    "participant_type": {
+      "type": "enumeration",
+      "enum": [
+        "team",
+        "individual"
+      ],
+      "required": true
+    },
+    "round": {
+      "type": "string",
+      "required": true
+    },
+    "league": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::individuals-league.individuals-league",
+      "inversedBy": "matches"
     },
     "players": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "matches"
-    },
-    "datetime": {
-      "type": "datetime"
-    },
-    "teams": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::team.team",
-      "inversedBy": "matches"
-    },
-    "match_scores": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::match-score.match-score",
-      "mappedBy": "match"
-    },
-    "match_status": {
-      "type": "enumeration",
-      "enum": [
-        "finished",
-        "canceled"
-      ]
+      "inversedBy": "individuals_matches"
     }
   }
 }

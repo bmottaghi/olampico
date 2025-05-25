@@ -4,18 +4,13 @@
   "info": {
     "singularName": "match-score",
     "pluralName": "match-scores",
-    "displayName": "MatchScore"
+    "displayName": "MatchScore",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
-    "player": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "match_scores"
-    },
     "team": {
       "type": "relation",
       "relation": "manyToOne",
@@ -33,10 +28,10 @@
         "equal"
       ]
     },
-    "match": {
+    "player": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::individuals-match.individuals-match",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "match_scores"
     }
   }

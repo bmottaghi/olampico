@@ -10,18 +10,6 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "league": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::individuals-league.individuals-league",
-      "inversedBy": "league_champions"
-    },
-    "player": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "league_championship"
-    },
     "team": {
       "type": "relation",
       "relation": "manyToOne",

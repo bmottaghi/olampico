@@ -75,44 +75,26 @@
     "age": {
       "type": "integer"
     },
-    "teams": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::team.team",
-      "mappedBy": "players"
+    "full_name": {
+      "type": "string"
     },
-    "player_skills": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::player-skill.player-skill",
-      "mappedBy": "users_permissions_user"
-    },
-    "matches": {
+    "individuals_matches": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::individuals-match.individuals-match",
       "mappedBy": "players"
+    },
+    "individuals_leagues": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::individuals-league.individuals-league",
+      "mappedBy": "player_type_members"
     },
     "match_scores": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::match-score.match-score",
       "mappedBy": "player"
-    },
-    "league_championship": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::league-champion.league-champion",
-      "mappedBy": "player"
-    },
-    "leagues": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::individuals-league.individuals-league",
-      "mappedBy": "player_type_members"
-    },
-    "full_name": {
-      "type": "string"
     }
   }
 }

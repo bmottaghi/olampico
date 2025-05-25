@@ -4,57 +4,61 @@
   "info": {
     "singularName": "individuals-league",
     "pluralName": "individuals-leagues",
-    "displayName": "League",
+    "displayName": "Individuals League",
     "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string",
       "required": true
     },
-    "type": {
+    "participant_type": {
       "type": "enumeration",
       "enum": [
-        "individual",
-        "team"
-      ]
+        "team",
+        "individual"
+      ],
+      "required": true
     },
-    "description": {
-      "type": "text"
-    },
-    "player_type_members": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "leagues"
+    "min_participants": {
+      "type": "integer",
+      "required": true
     },
     "team_type_members": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::team.team",
-      "inversedBy": "leagues"
+      "inversedBy": "individuals_leagues"
+    },
+    "matches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::individuals-match.individuals-match",
+      "mappedBy": "league"
+    },
+    "player_type_members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "individuals_leagues"
     },
     "sport": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::sport.sport",
-      "inversedBy": "leagues"
+      "inversedBy": "individuals_leagues"
     },
-    "gender": {
+    "league_status": {
       "type": "enumeration",
       "enum": [
-        "female",
-        "male"
+        "waiting",
+        "ongoing",
+        "finished"
       ]
-    },
-    "league_champions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::league-champion.league-champion",
-      "mappedBy": "league"
     }
   }
 }

@@ -33,6 +33,12 @@
       "relation": "oneToMany",
       "target": "api::individuals-league.individuals-league",
       "mappedBy": "sport"
+    },
+    "individuals_leagues": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::individuals-league.individuals-league",
+      "mappedBy": "sport"
     }
   }
 }

@@ -15,12 +15,6 @@
       "type": "string",
       "required": true
     },
-    "players": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "teams"
-    },
     "sport": {
       "type": "relation",
       "relation": "manyToOne",
@@ -63,7 +57,7 @@
       "target": "api::league-champion.league-champion",
       "mappedBy": "team"
     },
-    "leagues": {
+    "individuals_leagues": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::individuals-league.individuals-league",
